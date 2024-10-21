@@ -39,7 +39,10 @@ const route = (app: Router) => {
 // crawls in web grab food
 const crawlsGrab = async (url: string): Promise<Item[]> => {
     // const browser = await puppeteer.launch({ headless: false, defaultViewport: null, args: ['--start-maximized'] }); // this code to launches the browser
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ["--no-sandbox"]
+    });
+    
     const page: Page = await browser.newPage();
 
     await page.setUserAgent(
