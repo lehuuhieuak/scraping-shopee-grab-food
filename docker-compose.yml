@@ -1,8 +1,21 @@
 version: "3.7"
 services:
- api:
-  build:
-   context: .
-   target: production
-  ports:
-    - 4000:3000
+  scraping-food-api:
+    container_name: scraping-food-api
+    build:
+      context: .
+      target: production
+    ports:
+      - 4000:3000
+
+  proxy:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /tmp/acme-challenge:/tmp/acme-challenge
+    ports:
+      - 1443:1443
+    depends_on:
+      - scraping-food-api
